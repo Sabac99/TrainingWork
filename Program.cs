@@ -63,10 +63,9 @@ void printArray(int[,] array)
 printArray(lotOfNumbers);
 Console.WriteLine($"Максимум = {FindMax(lotOfNumbers)}");
 
+
+
 //3
- 
-
-
 void playHeadsAndTails()
 {
     bool exit = false;
@@ -117,8 +116,6 @@ void playHeadsAndTails()
 playHeadsAndTails();
 
 //4
-
-
 void FindSum()
 {
     double sum = 0d;
@@ -166,29 +163,21 @@ void FindSum()
 
 FindSum();
 
+
+
 //5
 //## 5. Игра 3x3
-
 //-Есть массив 3×3 из символов `"o"`.
-
 //- Программа случайно загадывает элемент.
-
 //- Пользователь вводит **номер строки и столбца** (нумерация с 1).
-
 //- Если угадал — заменить `"o"` на `"x"`.
-
 //- Победа при 3 угаданных элементах (всего 6 попыток).
-
 //- Не выбирать уже отгаданные элементы.
-
 //- Проверять корректность ввода номеров.
-
-
-
 string[,] initializeField()
 { 
     string[,] field = new string[3, 3];
-    for  (int i = 0; i < 3; i++)
+    for(int i = 0; i < 3; i++)
     {
         for (int j = 0; j < 3; j++)
         {
@@ -199,15 +188,63 @@ string[,] initializeField()
 }
 
 string[,] field = initializeField();
+string[] alreadyUsed = new string[6];
 Random xCreate = new Random(13);
 Random yCreate = new Random(8);
-int xPos = xCreate.Next(0, 3);
-int yPos = yCreate.Next(0, 3);
+int count = 0;
+int xPos = xCreate.Next(1, 4);
+int yPos = yCreate.Next(1, 4);
 for (int i = 0; i < 6; i++)
 {
-    string input;
-    Console.WriteLine("Введите позиции клетки через пробел");
-    input = Console.ReadLine();
-    Console.WriteLine(input);
+    int xCurr;
+    int yCurr;
 
+    if (count == 3)
+    {
+        Console.WriteLine("Вы победили");
+        break;
+    }
+    Console.WriteLine("Введите номер строки и номер столбца");
+    Console.WriteLine("Номер строки начиная с 1");
+    if (int.TryParse(Console.ReadLine(), out xCurr) && xCurr >= 1 && xCurr <= 3) Console.WriteLine("Номер столбца начиная с 1");
+    else
+    {
+        Console.WriteLine("Ошибка ввода");
+        i--;
+        continue;
+    }
+    if (int.TryParse(Console.ReadLine(), out yCurr) && yCurr >= 1 && yCurr <= 3);
+    else
+    {
+        Console.WriteLine("Ошибка ввода");
+        i--;
+        continue;
+    }
+
+    if ((xCurr == xPos) && (yCurr == yPos) && !alreadyUsed.Contains(xCurr + " " + yCurr))
+    {
+        alreadyUsed[i] = (xCurr + " " + yCurr);
+        field[xCurr - 1, yCurr - 1] = "x";
+        count += 1;
+        Console.WriteLine("Верно");
+        Console.WriteLine($"Счет = {count}");
+        do
+        {
+            xPos = xCreate.Next(1, 4);
+            yPos = yCreate.Next(1, 4);
+        }
+        while (!alreadyUsed.Contains(xPos + " " + yPos));
+        {
+            xPos = xCreate.Next(1, 4);
+            yPos = yCreate.Next(1, 4);
+        }
+    }
+    else{
+        Console.WriteLine("Неверно");
+        Console.WriteLine($"Осталось Попыток = {5-i}");
+    }
+}
+if (count != 3)
+{
+    Console.WriteLine("Вы проиграли");
 }
