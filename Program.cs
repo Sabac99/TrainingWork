@@ -165,3 +165,49 @@ void FindSum()
 }
 
 FindSum();
+
+//5
+//## 5. Игра 3x3
+
+//-Есть массив 3×3 из символов `"o"`.
+
+//- Программа случайно загадывает элемент.
+
+//- Пользователь вводит **номер строки и столбца** (нумерация с 1).
+
+//- Если угадал — заменить `"o"` на `"x"`.
+
+//- Победа при 3 угаданных элементах (всего 6 попыток).
+
+//- Не выбирать уже отгаданные элементы.
+
+//- Проверять корректность ввода номеров.
+
+
+
+string[,] initializeField()
+{ 
+    string[,] field = new string[3, 3];
+    for  (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            field[i, j] = "o";   
+        }
+    }
+    return field;
+}
+
+string[,] field = initializeField();
+Random xCreate = new Random(13);
+Random yCreate = new Random(8);
+int xPos = xCreate.Next(0, 3);
+int yPos = yCreate.Next(0, 3);
+for (int i = 0; i < 6; i++)
+{
+    string input;
+    Console.WriteLine("Введите позиции клетки через пробел");
+    input = Console.ReadLine();
+    Console.WriteLine(input);
+
+}
