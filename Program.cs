@@ -80,7 +80,7 @@ void playHeadsAndTails()
         Console.WriteLine($"Поражений {loses}");
         Console.WriteLine("Выберите сторону: Орел или Решка; чтобы выйти введите exit");
         choice.Append(Console.ReadLine().ToLower());
-        answer = random.Next(1,3);
+        answer = random.Next(0,2);
         if (choice.Equals("орел"))
         {
             if (answer == 0)
@@ -116,19 +116,52 @@ void playHeadsAndTails()
 
 playHeadsAndTails();
 
-//private void 
-//    switch (choice)
-//    {
-//        case choice.Equals("орел"):
-//            Console.WriteLine("орел");
-//            break;
-//        case "решка":
-//            Console.WriteLine("решка");
-//            break;
-//        case "exit":
-//            Console.WriteLine("Ливаю с катки");
-//            break;
-//        default:
-//            Console.WriteLine("Неверная команда");
-//            break;
-//    }
+//4
+
+
+void FindSum()
+{
+    double sum = 0d;
+    bool end = false;
+    bool exit = false;
+    double inputNumber;
+    string line;
+    string select;
+    StringBuilder answer = new StringBuilder();
+    while (exit == false)
+    {
+        while (end == false)
+        {
+            Console.WriteLine("Введите число для сложения или '=' для вывода суммы");
+            line = Console.ReadLine();
+            if (double.TryParse(line, out inputNumber))
+            {
+                answer.Append(line + " ");
+                sum += inputNumber;
+                inputNumber = 0d;
+            }
+            else if (line == "=")
+            {
+                Console.WriteLine(answer);
+                Console.WriteLine(Math.Round(sum, 5));
+                answer.Remove(0, answer.Length);
+                sum = 0;
+                end = true;
+            }
+        }
+        Console.WriteLine("Хотите продолжить? Введите restart, если да или exit для выхода");
+        select = Console.ReadLine();
+        if (select == "exit")
+        {
+            exit = true;
+        }
+        else if (select == "restart")
+        {
+            end = false;
+        }
+        else Console.WriteLine("Ошибка ввода");
+
+    }
+}
+
+FindSum();
