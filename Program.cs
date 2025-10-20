@@ -239,7 +239,14 @@ for (int i = 0; i < 6; i++)
             yPos = yCreate.Next(1, 4);
         }
     }
-    else{
+    else if(alreadyUsed.Contains(xCurr + " " + yCurr))
+    {
+        Console.WriteLine("Ошибка, ячейка уже была использована");
+        i--;
+        continue;
+    }
+    else
+    {
         Console.WriteLine("Неверно");
         Console.WriteLine($"Осталось Попыток = {5-i}");
     }
