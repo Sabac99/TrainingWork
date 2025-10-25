@@ -53,7 +53,7 @@ void printArray(int[,] array)
     {
         for (int j = 0; j < y; j++)
         {
-            output.Append(array[i, j].ToString());
+            output.Append(array[i, j]);
             output.Append(" ");
         }
         output.Append('\n');
@@ -124,7 +124,7 @@ void FindSum()
     double inputNumber;
     string line;
     string select;
-    StringBuilder answer = new StringBuilder();
+    StringBuilder answer = new StringBuilder(); //пофиксить нейминг
     while (exit == false)
     {
         while (end == false)
@@ -191,7 +191,7 @@ string[,] field = initializeField();
 string[] alreadyUsed = new string[6];
 Random xCreate = new Random(13);
 Random yCreate = new Random(8);
-int count = 0;
+int playerScore = 0;
 int xPos = xCreate.Next(1, 4);
 int yPos = yCreate.Next(1, 4);
 for (int i = 0; i < 6; i++)
@@ -199,7 +199,7 @@ for (int i = 0; i < 6; i++)
     int xCurr;
     int yCurr;
 
-    if (count == 3)
+    if (playerScore == 3)
     {
         Console.WriteLine("Вы победили");
         break;
@@ -225,9 +225,9 @@ for (int i = 0; i < 6; i++)
     {
         alreadyUsed[i] = (xCurr + " " + yCurr);
         field[xCurr - 1, yCurr - 1] = "x";
-        count += 1;
+        playerScore += 1;
         Console.WriteLine("Верно");
-        Console.WriteLine($"Счет = {count}");
+        Console.WriteLine($"Счет = {playerScore}");
         do
         {
             xPos = xCreate.Next(1, 4);
