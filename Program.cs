@@ -201,6 +201,7 @@ string[,] initializeField(int xSize, int ySize)
 
 int xSize = 3;
 int ySize = 3;
+int WinScore = 3;
 Random xCreate = new Random();
 Random yCreate = new Random();
 string[,] field = initializeField(xSize, ySize);
@@ -263,20 +264,20 @@ for (int i = 0; i < 6; i++)
         usedCellsCounter++;
         playerScore++;
         Console.WriteLine("Верно!");
-        Console.WriteLine($"Осталось еще {3-playerScore}");
+        Console.WriteLine($"Осталось еще {WinScore-playerScore}");
     }
     else
     {
         Console.WriteLine("Неверно, попробуй еще");
         Console.WriteLine($"Осталось попыток {5 - i}");
     }
-    if (playerScore == 3)
+    if (playerScore == WinScore)
     {
         Console.WriteLine("Вы победили");
         break;
     }
 }
-if (playerScore != 3)
+if (playerScore != WinScore)
 {
     Console.WriteLine("Вы проиграли");
 }
