@@ -88,33 +88,37 @@ void playHeadsAndTails()
     int playerChoice;
     int wins = 0;
     int loses = 0;
-    StringBuilder input = new StringBuilder();
+    string inputErrorMessage = "Ошибка ввода";
+    string commandExit = "exit";
+    string commandInputHeads = "орел";
+    string commandInputTails = "решка";
+    StringBuilder userInput = new StringBuilder();
     while (exit != true)
     {
         Console.WriteLine($"Побед {wins}");
         Console.WriteLine($"Поражений {loses}");
-        Console.WriteLine("Выберите сторону: Орел или Решка; чтобы выйти введите exit");
-        input.Append(Console.ReadLine().ToLower());
+        Console.WriteLine($"Выберите сторону: {commandInputHeads} или {commandInputTails}; чтобы выйти введите {commandExit}");
+        userInput.Append(Console.ReadLine().ToLower());
         computerChoice = random.Next(0,2);
-        if (input.Equals("орел"))
+        if (userInput.Equals(commandInputHeads))
         {
             playerChoice = 0;
             winCheck(playerChoice, computerChoice, ref loses, ref wins);
         }
-        else if(input.Equals("решка"))
+        else if(userInput.Equals(commandInputTails))
         {
             playerChoice = 1;
             winCheck(playerChoice, computerChoice, ref loses, ref wins);
         }
-        else if (input.Equals("exit"))
+        else if (userInput.Equals(commandExit))
         {
             exit = true;
         }
         else
         {
-            Console.WriteLine("Ошибка ввода");
+            Console.WriteLine(inputErrorMessage);
         }
-        input.Clear();
+        userInput.Clear();
     }
 }
 
@@ -123,52 +127,56 @@ playHeadsAndTails();
 //4
 void FindSum()
 {
-    
+
+
+
+    string commandGetResult = "=";
+    string commandExit = "exit";
+    string commandRestart = "restart";
+    string errorInputMessage = "Ошибка ввода";
+    StringBuilder allInputedNumbersOutput = new StringBuilder(); //пофиксить нейминг
     bool isPlaying = true;
     bool exit = false;
-    string CommandExit = "exit";
-    string CommandRestart = "restart";
-    StringBuilder answer = new StringBuilder(); //пофиксить нейминг
     while (exit == false)
     {
+        
         double sum = 0d;
         while (isPlaying == true)
         {
-            Console.WriteLine("Введите число для сложения или '=' для вывода суммы");
-            string userInput;
-            userInput = Console.ReadLine();
+            Console.WriteLine($"Введите число для сложения или {commandGetResult} для вывода суммы");
+            string userInput = Console.ReadLine();
             if (double.TryParse(userInput, out double inputNumber))
             {
-                answer.Append(userInput + " ");
+                allInputedNumbersOutput.Append(userInput + " ");
                 sum += inputNumber;
                 inputNumber = 0d;
             }
-            else if (userInput == "=")
+            else if (userInput == commandGetResult)
             {
-                Console.WriteLine(answer);
+                Console.WriteLine(allInputedNumbersOutput);
                 Console.WriteLine(Math.Round(sum, 5));
-                answer.Remove(0, answer.Length);
+                allInputedNumbersOutput.Remove(0, allInputedNumbersOutput.Length);
                 isPlaying = false;
             }
             else
             {
-                Console.WriteLine("Ошибка ввода");
+                Console.WriteLine(errorInputMessage);
             }
         }
-        Console.WriteLine("Хотите продолжить? Введите restart, если да или exit для выхода");
-        string commandInput;
-        commandInput = Console.ReadLine().ToLower();
-        if (commandInput == CommandExit)
+        Console.WriteLine($"Хотите продолжить? Введите {commandRestart}, если да или {commandExit} для выхода");
+        
+        string commandInput = Console.ReadLine().ToLower();
+        if (commandInput == commandExit)
         {
             exit = true;
         }
-        else if (commandInput == CommandRestart)
+        else if (commandInput == commandRestart)
         {
             isPlaying = true;
         }
         else
         {
-            Console.WriteLine("Ошибка ввода");
+            Console.WriteLine(errorInputMessage);
         }
     }
 }
@@ -186,49 +194,41 @@ FindSum();
 //- Победа при 3 угаданных элементах (всего 6 попыток).
 //- Не выбирать уже отгаданные элементы.
 //- Проверять корректность ввода номеров.
-string[,] initializeField(int xSize, int ySize)
-{ 
-    string[,] field = new string[xSize, ySize];
-    for(int i = 0; i < xSize; i++)
-    {
-        for (int j = 0; j < ySize; j++)
-        {
-            field[i, j] = "o";   
-        }
-    }
-    return field;
-}
 
-int xSize = 3;
-int ySize = 3;
-int WinScore = 3;
+
 Random xCreate = new Random();
 Random yCreate = new Random();
-string[,] field = initializeField(xSize, ySize);
-(int, int)[] alreadyUsed = new (int, int)[6];
-(int, int) cellPosition;
+int xFieldSize = 3;
+int yFieldSize = 3;
+int WinScore = 3;
+int tries = 6;
+string inputErrorMessage = "Ошибка ввода";
+
+(int, int)[] guessedMapPositions = new (int, int)[6];
 int playerScore = 0;
-int usedCellsCounter = 0;
-void GetNumbers(int xSize,int ySize, ref int xPlayer, ref int yPlayer, ref (int , int)[] alreadyUsed, out (int,int) cellPosition)
+int guessedMapPositionsCount = 0;
+(int,int) GetNumbers(int xFieldSize,int yFieldSize)
 {
     bool allAlright = false;
+    int xPlayerInput = 0;
+    int yPlayerInput = 0;
     while (allAlright != true)
     {
+        
         Console.WriteLine("Введите номер строки и номер столбца");
         Console.WriteLine("Номер строки начиная с 1");
-        if (int.TryParse(Console.ReadLine(), out xPlayer) && (xPlayer >= 1 && xPlayer <= xSize))
+        if (int.TryParse(Console.ReadLine(), out  xPlayerInput) && (xPlayerInput >= 1 && xPlayerInput <= xFieldSize))
         {
             Console.WriteLine("Номер столбца начиная с 1");
         }
         else
         {
-            Console.WriteLine("Ошибка ввода");
+            Console.WriteLine(inputErrorMessage);
             continue;
         }
-        if (int.TryParse(Console.ReadLine(), out yPlayer) && (yPlayer >= 1 && yPlayer <= ySize))
+        if (int.TryParse(Console.ReadLine(), out  yPlayerInput) && (yPlayerInput >= 1 && yPlayerInput <= yFieldSize))
         {
-            cellPosition = (xPlayer, yPlayer);
-            if (!alreadyUsed.Contains(cellPosition))
+            if (!guessedMapPositions.Contains((xPlayerInput, yPlayerInput)))
             {
                 allAlright = true;
             }
@@ -240,36 +240,47 @@ void GetNumbers(int xSize,int ySize, ref int xPlayer, ref int yPlayer, ref (int 
         }
         else
         {
-            Console.WriteLine("Ошибка ввода");
+            Console.WriteLine(inputErrorMessage);
             continue;
         }
-        
     }
-    cellPosition = (xPlayer, yPlayer);
-}
-int xComp = xCreate.Next(1, xSize + 1);
-int yComp = yCreate.Next(1, ySize + 1);
-for (int i = 0; i < 6; i++)
-{
-    int xPlayer = 0;
-    int yPlayer = 0;
+    return (xPlayerInput,yPlayerInput);
     
-    GetNumbers(xSize, ySize ,ref xPlayer, ref yPlayer, ref alreadyUsed, out cellPosition);
-    if (cellPosition.Item1 == xComp && cellPosition.Item2 == yComp)
+}
+(int, int) GetComputerNumbers(int xFieldSize, int yFieldSize)
+{
+    int xCompInput = 0;
+    int yCompInput = 0;
+    bool allAlright = false;
+    while (allAlright != true)
     {
-        xComp = xCreate.Next(1, xSize + 1);
-        yComp = yCreate.Next(1, ySize + 1);
-        field[xComp - 1, yComp - 1] = "x";
-        alreadyUsed[usedCellsCounter] = cellPosition;
-        usedCellsCounter++;
+            xCompInput = xCreate.Next(1, xFieldSize + 1);
+            yCompInput = yCreate.Next(1, yFieldSize + 1);
+            if (!guessedMapPositions.Contains((xCompInput, yCompInput)))
+            {
+                allAlright = true;
+            }
+    }
+    return (xCompInput, yCompInput);
+}
+
+(int, int) computerPosition = GetComputerNumbers(xFieldSize, yFieldSize);
+for (int i = 0; i < tries; i++)
+{
+    (int, int) playerPosition = GetNumbers(xFieldSize, yFieldSize);
+    if (playerPosition == computerPosition)
+    {
+        guessedMapPositions[guessedMapPositionsCount] = computerPosition;
+        guessedMapPositionsCount++;
         playerScore++;
+        computerPosition = GetComputerNumbers(xFieldSize, yFieldSize);
         Console.WriteLine("Верно!");
         Console.WriteLine($"Осталось еще {WinScore-playerScore}");
     }
     else
     {
         Console.WriteLine("Неверно, попробуй еще");
-        Console.WriteLine($"Осталось попыток {5 - i}");
+        Console.WriteLine($"Осталось попыток {tries - (i+1)}");
     }
     if (playerScore == WinScore)
     {
@@ -281,3 +292,27 @@ if (playerScore != WinScore)
 {
     Console.WriteLine("Вы проиграли");
 }
+
+void initializeField(int xSize, int ySize, (int,int)[] guessedMapPositions)
+{
+    char[,] field = new char[xSize, ySize];
+    for (int i = 0; i < xSize; i++)
+    {
+        for (int j = 0; j < ySize; j++)
+        {
+            if (guessedMapPositions.Contains((i+1, j+1)))
+            {
+                field[i, j] = 'x';
+            }
+            else
+            {
+                field[i, j] = 'o';
+            }
+            Console.Write(field[i,j]);
+        }
+        Console.WriteLine();
+    }
+    
+}
+
+initializeField(xFieldSize, yFieldSize, guessedMapPositions);
